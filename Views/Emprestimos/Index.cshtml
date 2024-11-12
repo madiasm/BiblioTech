@@ -1,0 +1,53 @@
+﻿@model IEnumerable<BiblioTech.Models.Emprestimo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.usuario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.livro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataEmprestimo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dataDevolucao)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.usuario.cpf)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.livro.titulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dataEmprestimo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dataDevolucao)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.emprestimoId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.emprestimoId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.emprestimoId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
