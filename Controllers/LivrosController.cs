@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BiblioTech.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BiblioTech.Controllers
 {
+    [Authorize]
     public class LivrosController : Controller
     {
         private readonly Contexto _context;
@@ -19,6 +21,7 @@ namespace BiblioTech.Controllers
         }
 
         // GET: Livros
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var contexto = _context.Livros.Include(l => l.autor).Include(l => l.genero);
@@ -26,6 +29,7 @@ namespace BiblioTech.Controllers
         }
 
         // GET: Livros/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

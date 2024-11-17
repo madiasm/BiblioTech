@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BiblioTech.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BiblioTech.Controllers
 {
+    [Authorize(Roles ="ADMIN")]
     public class AutoresController : Controller
     {
         private readonly Contexto _context;
@@ -19,12 +21,14 @@ namespace BiblioTech.Controllers
         }
 
         // GET: Autores
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Autores.ToListAsync());
         }
 
         // GET: Autores/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

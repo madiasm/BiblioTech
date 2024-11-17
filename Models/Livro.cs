@@ -21,8 +21,6 @@ namespace BiblioTech.Models
         [Display(Name = "Autor: ")]
         public Autor autor { get; set; }
 
-
-
         [Display(Name = "Genero: ")]
         public int generoId { get; set; }
 

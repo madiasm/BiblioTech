@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BiblioTech.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BiblioTech.Controllers
 {
@@ -19,6 +20,7 @@ namespace BiblioTech.Controllers
         }
 
         // GET: Emprestimos
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var contexto = _context.Emprestimos.Include(e => e.livro).Include(e => e.usuario);
@@ -26,6 +28,7 @@ namespace BiblioTech.Controllers
         }
 
         // GET: Emprestimos/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -127,6 +130,7 @@ namespace BiblioTech.Controllers
         }
 
         // GET: Emprestimos/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

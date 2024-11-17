@@ -11,23 +11,23 @@ using Microsoft.AspNetCore.Authorization;
 namespace BiblioTech.Controllers
 {
     [Authorize]
-    public class GenerosController : Controller
+    public class UsuariosController : Controller
     {
         private readonly Contexto _context;
 
-        public GenerosController(Contexto context)
+        public UsuariosController(Contexto context)
         {
             _context = context;
         }
 
-        // GET: Generoes
+        // GET: Usuarios
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Generos.ToListAsync());
+            return View(await _context.Usuarios.ToListAsync());
         }
 
-        // GET: Generoes/Details/5
+        // GET: Usuarios/Details/5
         [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
@@ -36,39 +36,39 @@ namespace BiblioTech.Controllers
                 return NotFound();
             }
 
-            var genero = await _context.Generos
-                .FirstOrDefaultAsync(m => m.generoId == id);
-            if (genero == null)
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(m => m.usuarioId == id);
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(usuario);
         }
 
-        // GET: Generoes/Create
+        // GET: Usuarios/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Generoes/Create
+        // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("generoId,assunto")] Genero genero)
+        public async Task<IActionResult> Create([Bind("usuarioId,nome,cpf,dataRegistro")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(genero);
+                _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            return View(usuario);
         }
 
-        // GET: Generoes/Edit/5
+        // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,22 +76,22 @@ namespace BiblioTech.Controllers
                 return NotFound();
             }
 
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero == null)
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null)
             {
                 return NotFound();
             }
-            return View(genero);
+            return View(usuario);
         }
 
-        // POST: Generoes/Edit/5
+        // POST: Usuarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("generoId,assunto")] Genero genero)
+        public async Task<IActionResult> Edit(int id, [Bind("usuarioId,nome,cpf,dataRegistro")] Usuario usuario)
         {
-            if (id != genero.generoId)
+            if (id != usuario.usuarioId)
             {
                 return NotFound();
             }
@@ -100,12 +100,12 @@ namespace BiblioTech.Controllers
             {
                 try
                 {
-                    _context.Update(genero);
+                    _context.Update(usuario);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GeneroExists(genero.generoId))
+                    if (!UsuarioExists(usuario.usuarioId))
                     {
                         return NotFound();
                     }
@@ -116,10 +116,10 @@ namespace BiblioTech.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(genero);
+            return View(usuario);
         }
 
-        // GET: Generoes/Delete/5
+        // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -127,34 +127,34 @@ namespace BiblioTech.Controllers
                 return NotFound();
             }
 
-            var genero = await _context.Generos
-                .FirstOrDefaultAsync(m => m.generoId == id);
-            if (genero == null)
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(m => m.usuarioId == id);
+            if (usuario == null)
             {
                 return NotFound();
             }
 
-            return View(genero);
+            return View(usuario);
         }
 
-        // POST: Generoes/Delete/5
+        // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var genero = await _context.Generos.FindAsync(id);
-            if (genero != null)
+            var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario != null)
             {
-                _context.Generos.Remove(genero);
+                _context.Usuarios.Remove(usuario);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GeneroExists(int id)
+        private bool UsuarioExists(int id)
         {
-            return _context.Generos.Any(e => e.generoId == id);
+            return _context.Usuarios.Any(e => e.usuarioId == id);
         }
     }
 }
