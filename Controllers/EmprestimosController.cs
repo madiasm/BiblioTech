@@ -49,6 +49,7 @@ namespace BiblioTech.Controllers
         }
 
         // GET: Emprestimos/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["livroId"] = new SelectList(_context.Livros, "livroId", "titulo");
@@ -75,6 +76,7 @@ namespace BiblioTech.Controllers
         }
 
         // GET: Emprestimos/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)

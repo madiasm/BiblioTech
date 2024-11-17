@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BiblioTech.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ADMIN")]
     public class UsuariosController : Controller
     {
         private readonly Contexto _context;
@@ -19,16 +19,14 @@ namespace BiblioTech.Controllers
         {
             _context = context;
         }
-
         // GET: Usuarios
-        [AllowAnonymous]
+        
         public async Task<IActionResult> Index()
         {
             return View(await _context.Usuarios.ToListAsync());
         }
 
         // GET: Usuarios/Details/5
-        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

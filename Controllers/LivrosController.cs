@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BiblioTech.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ADMIN")]
     public class LivrosController : Controller
     {
         private readonly Contexto _context;
