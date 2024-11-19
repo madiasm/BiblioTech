@@ -26,8 +26,8 @@ body {
 }
 
 .fixed-size-image {
-    width: 100%; /* Ajusta à largura do contêiner pai */
-    aspect-ratio: 1 / 1; /* Proporção da imagem */
+    width: 125px; /* Ajusta à largura do contêiner pai */
+    height: 180px; /* Proporção da imagem */
     object-fit: cover; /* Ajusta a imagem ao contêiner */
     border-radius: 10px; /* Cantos arredondados */
 }
