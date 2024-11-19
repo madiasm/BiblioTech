@@ -39,7 +39,7 @@ namespace BiblioTech.Controllers
 
             contexto.SaveChanges();
 
-            return View(contexto.Livros.Include(a=>a.genero).ToList());
+            return View(contexto.Livros.Include(a=>a.genero).Include(b=>b.autor).ToList());
         }
     }
 }
