@@ -20,6 +20,7 @@ namespace BiblioTech.Controllers
             _context = context;
         }
 
+
         // GET: Generoes
         [AllowAnonymous]
         public async Task<IActionResult> Index()

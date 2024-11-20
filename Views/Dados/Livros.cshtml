@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <h1>Livros gerados automaticamente</h1>
 
 <p>
@@ -41,7 +42,7 @@
                 @Html.DisplayFor(modelItem => item.autor.nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.genero.generoId)
+                @Html.DisplayFor(modelItem => item.genero.assunto)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.publicacao)
