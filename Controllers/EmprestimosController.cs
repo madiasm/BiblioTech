@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -52,27 +51,39 @@ namespace BiblioTech.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            ViewData["livroId"] = new SelectList(_context.Livros, "livroId", "titulo");
+            ViewData["livroId"] = new SelectList(_context.Livros.Where(l => l.status == 1), "livroId", "titulo"); // Exibe apenas livros disponíveis
             ViewData["usuarioId"] = new SelectList(_context.Usuarios, "usuarioId", "cpf");
             return View();
         }
 
         // POST: Emprestimos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("emprestimoId,usuarioId,livroId,dataEmprestimo,dataDevolucao")] Emprestimo emprestimo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(emprestimo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                // Verificar se o livro está disponível (status = 1)
+                var livro = await _context.Livros.FirstOrDefaultAsync(l => l.livroId == emprestimo.livroId);
+
+                if (livro != null && livro.status == 1) // Livro disponível
+                {
+                    // Marcar o livro como emprestado (status = 0)
+                    livro.status = 0;
+                    _context.Livros.Update(livro); // Atualiza o status do livro
+                    await _context.SaveChangesAsync(); // Salva a alteração no status do livro
+
+                    // Adiciona o empréstimo
+                    _context.Add(emprestimo);
+                    await _context.SaveChangesAsync();
+
+                    // Redireciona para a página de listagem de empréstimos
+                    return RedirectToAction(nameof(Index));
+                }
             }
-            ViewData["livroId"] = new SelectList(_context.Livros, "livroId", "titulo", emprestimo.livroId);
-            ViewData["usuarioId"] = new SelectList(_context.Usuarios, "usuarioId", "cpf", emprestimo.usuarioId);
-            return View(emprestimo);
+
+            // Se o modelo não for válido ou se o livro não estiver disponível, redireciona para a página de listagem de empréstimos (Index)
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Emprestimos/Edit/5
@@ -94,9 +105,6 @@ namespace BiblioTech.Controllers
             return View(emprestimo);
         }
 
-        // POST: Emprestimos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("emprestimoId,usuarioId,livroId,dataEmprestimo,dataDevolucao")] Emprestimo emprestimo)
@@ -110,12 +118,49 @@ namespace BiblioTech.Controllers
             {
                 try
                 {
-                    _context.Update(emprestimo);
-                    await _context.SaveChangesAsync();
+                    var emprestimoAntigo = await _context.Emprestimos
+                        .Include(e => e.livro)
+                        .FirstOrDefaultAsync(e => e.emprestimoId == emprestimo.emprestimoId);
+
+                    var livroAntigo = emprestimoAntigo?.livro; // Livro que estava emprestado
+                    var novoLivro = await _context.Livros.FindAsync(emprestimo.livroId); // Novo livro selecionado
+
+                    if (livroAntigo != null && novoLivro != null)
+                    {
+                        // Se o novo livro estiver disponível (status = 1)
+                        if (novoLivro.status == 1)
+                        {
+                            // Se o livro antigo estava emprestado (status = 0), volta ao status disponível (status = 1)
+                            if (livroAntigo.status == 0)
+                            {
+                                livroAntigo.status = 1;
+                                _context.Livros.Update(livroAntigo);
+                            }
+
+                            // Marca o novo livro como emprestado (status = 0)
+                            novoLivro.status = 0;
+                            _context.Livros.Update(novoLivro);
+
+                            // Atualiza o empréstimo com o novo livro
+                            emprestimoAntigo.livroId = emprestimo.livroId;
+                            _context.Update(emprestimoAntigo);
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            // Se o novo livro não estiver disponível, remove o empréstimo
+                            _context.Emprestimos.Remove(emprestimoAntigo);
+                            await _context.SaveChangesAsync();
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmprestimoExists(emprestimo.emprestimoId))
+                    var existeEmprestimo = await _context.Emprestimos
+                        .AnyAsync(e => e.emprestimoId == emprestimo.emprestimoId);
+
+                    if (!existeEmprestimo)
                     {
                         return NotFound();
                     }
@@ -124,8 +169,10 @@ namespace BiblioTech.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["livroId"] = new SelectList(_context.Livros, "livroId", "titulo", emprestimo.livroId);
             ViewData["usuarioId"] = new SelectList(_context.Usuarios, "usuarioId", "cpf", emprestimo.usuarioId);
             return View(emprestimo);
@@ -160,16 +207,18 @@ namespace BiblioTech.Controllers
             var emprestimo = await _context.Emprestimos.FindAsync(id);
             if (emprestimo != null)
             {
+                var livro = await _context.Livros.FindAsync(emprestimo.livroId);
+                if (livro != null)
+                {
+                    livro.status = 1; // Marca o livro como disponível
+                    _context.Livros.Update(livro);
+                }
+
                 _context.Emprestimos.Remove(emprestimo);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool EmprestimoExists(int id)
-        {
-            return _context.Emprestimos.Any(e => e.emprestimoId == id);
         }
     }
 }
