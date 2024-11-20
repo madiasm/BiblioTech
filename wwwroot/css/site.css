@@ -50,8 +50,24 @@ body {
     border-radius: 10px;
 }
 
-.card:hover .image-overlay {
-    opacity: 1; /* Mostra o overlay ao passar o mouse */
+.card {
+    flex-shrink: 0;
+    border: none;
+    overflow: hidden;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+}
+
+.container {
+    max-width: 100%;
+}
+
+.d-flex {
+    gap: 10px;
 }
 
 
