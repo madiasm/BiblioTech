@@ -53,7 +53,7 @@ namespace BiblioTech.Controllers
         public IActionResult Create()
         {
             ViewData["autorId"] = new SelectList(_context.Autores, "autorId", "nome");
-            ViewData["generoId"] = new SelectList(_context.Generos, "generoId", "generoId");
+            ViewData["generoId"] = new SelectList(_context.Generos, "generoId", "assunto");
             return View();
         }
 
@@ -89,7 +89,7 @@ namespace BiblioTech.Controllers
                 return NotFound();
             }
             ViewData["autorId"] = new SelectList(_context.Autores, "autorId", "nome", livro.autorId);
-            ViewData["generoId"] = new SelectList(_context.Generos, "generoId", "generoId", livro.generoId);
+            ViewData["generoId"] = new SelectList(_context.Generos, "generoId", "assunto", livro.generoId);
             return View(livro);
         }
 
@@ -126,7 +126,7 @@ namespace BiblioTech.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["autorId"] = new SelectList(_context.Autores, "autorId", "nome", livro.autorId);
-            ViewData["generoId"] = new SelectList(_context.Generos, "generoId", "generoId", livro.generoId);
+            ViewData["generoId"] = new SelectList(_context.Generos, "generoId", "assunto", livro.generoId);
             return View(livro);
         }
 
