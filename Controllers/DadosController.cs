@@ -28,14 +28,38 @@ namespace BiblioTech.Controllers
                 "O Jardim Secreto", "Persuasão", "A Letra Escarlate", "Os Três Mosqueteiros", "As Vinhas da Ira",
                 "A Sangue Frio", "O Processo", "O Livro das Mil e Uma Noites", "A História Sem Fim", "O Nome da Rosa",
                 "O Diário de Anne Frank", "Fahrenheit 451", "O Estrangeiro", "Beloved", "O Homem Invisível",
-                "O Hobbit", "Memórias Póstumas de Brás Cubas", "Capitães da Areia", "Dom Casmurro", "Grande Sertão: Veredas"
+                "O Hobbit", "Memórias Póstumas de Brás Cubas", "Capitães da Areia", "Dom Casmurro", "Grande Sertão: Veredas",
+                "O Pêndulo de Foucault", "O Senhor das Moscas", "O Médico e o Monstro", "O Velho e o Mar", "O Último dos Moicanos",
+                "O Conde de Monte Cristo", "Os Pilares da Terra", "O Príncipe", "A Arte da Guerra", "O Hobbit",
+                "O Silmarillion", "A Revolução Francesa", "O Cão dos Baskerville", "O Tesouro de Praga", "O Poder do Agora",
+                "O Código Da Vinci", "Harry Potter e a Câmara Secreta", "Harry Potter e o Prisioneiro de Azkaban", "O Último Reino", "O Silêncio dos Inocentes",
+                "A Sombra do Vento", "A Menina que Roubava Livros", "O Mestre e Margarida", "A Guerra dos Tronos", "O Príncipe",
+                "O Rei Leão", "A Ilha do Tesouro", "A Lenda do Cavaleiro Sem Cabeça", "A Trilogia do Senhor dos Anéis", "As Crônicas de Nárnia",
+                "A Torre Negra", "As Aventuras de Huckleberry Finn", "A Caverna", "O Evangelho Segundo Jesus Cristo", "O Rei Arthur e os Cavaleiros da Távola Redonda",
+                "A Luta pela Liberdade", "O Manual de Sobrevivência do Apocalipse Zumbi", "Memórias de uma Gueixa", "O Chamado de Cthulhu", "O Mundo Perdido",
+                "A Busca do Graal", "O Império do Sol", "O Monge e o Executivo", "Os Meninos da Rua Paulo", "O Cavaleiro Andante",
+                "O Esplendor de Deus", "A Assombração da Casa da Colina", "O Grande Inquisidor", "O Estrangeiro", "A História da Eternidade",
+                "A Revolução dos Bichos", "O Retrato de Dorian Gray", "O Pequeno Príncipe", "A Ilha do Medo", "O Espelho",
+                "A Mão que Cria o Olho", "O Príncipe Caspian", "A Cidade do Sol", "O Segredo", "O Mundo do Sofrimento",
+                "O Lado Sombrio do Coração", "A Origem das Espécies", "O Enigma do Quatro", "O Ciclo da Herança", "A Verdade sobre o Caso Harry Quebert",
+                "O Amor nos Tempos de Cólera", "O Fim da Eternidade", "O Capítulo da Morte", "O Inocente", "O Rei do Inverno",
+                "O Vendedor de Sonhos", "O Planeta dos Macacos", "A Viagem do Elefante", "O Corredor Polaco", "O Caminho das Águas",
+                "O Último Temptor", "O Veneno da Madrugada", "O Coração das Sombras", "O Vingador", "O Ladrão de Raios",
+                "O Monstro", "O Retrato da Senhora", "O Castelo", "A Bíblia", "O Segredo de Emma Corrigan",
+                "O Testamento", "A Ronda", "O Dia do Cervo", "O Príncipe das Sombras", "O Filho do Homem", "A Abissal",
+                "O Buraco da Agulha", "O Levante", "O Mistério do Círculo de Ouro", "A Cartomante", "O Amor é Para os Corajosos",
+                "O Rumo da Tempestade", "O Sétimo Selo", "A Moeda", "O Anjo da Morte", "A Festa de Babette", "O Ponto de Vista",
+                "A Terra das Sombras", "O Jardim das Aflições", "O Tempo e o Vento", "O Mistério de Pemberley", "A Lenda de Sleepy Hollow",
+                "O Casamento", "O Amor de Clarice", "O Sábio", "A História da Arte", "O Feiticeiro de Oz", "O Guardião",
+                "O Caminho do Guerreiro Pacífico", "O Jogo do Anjo", "A Guerra das Mulheres", "O Senhor do Mundo", "O Príncipe do Egito"
             };
+
 
             contexto.Database.ExecuteSqlRaw("delete from Livros");
             contexto.Database.ExecuteSqlRaw("DBCC CHECKIDENT('Livros', RESEED, 0)");
 
             Random rnd = new Random();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 150; i++)
             {
                 Livro livro = new Livro();
                 //livro.titulo = "Livro " + i.ToString();
@@ -93,6 +117,43 @@ namespace BiblioTech.Controllers
             contexto.SaveChanges();
 
             return View(contexto.Usuarios.OrderBy(d=>d.dataRegistro).ToList());
+        }
+
+
+        public IActionResult Emprestimos()
+        {
+
+            contexto.Database.ExecuteSqlRaw("delete from Emprestimos");
+            contexto.Database.ExecuteSqlRaw("UPDATE Livros SET status = 1 WHERE status = 0");
+            contexto.Database.ExecuteSqlRaw("DBCC CHECKIDENT('Emprestimos', RESEED, 0)");
+
+            Random rnd = new Random();
+
+
+            for (int i = 1; i <= 50; i++)
+            {
+                Emprestimo emprestimo = new Emprestimo();
+                emprestimo.usuarioId = i;
+                emprestimo.livroId = i;
+
+
+                emprestimo.dataEmprestimo = Convert.ToDateTime("01/01/2023").AddDays(rnd.Next(0, 730)).AddHours(rnd.Next(0, 24)).AddMinutes(rnd.Next(0, 60)).AddSeconds(rnd.Next(0, 60));
+                emprestimo.dataDevolucao = emprestimo.dataEmprestimo.AddDays(7);
+
+
+
+                contexto.Emprestimos.Add(emprestimo);
+
+                var livro = contexto.Livros.FirstOrDefault(l => l.livroId == emprestimo.livroId);
+                if (livro != null)
+                {
+                    livro.status = 0;
+                }
+            }
+
+            contexto.SaveChanges();
+
+            return View(contexto.Emprestimos.Include(u=>u.usuario).Include(l=>l.livro).OrderBy(a=>a.dataEmprestimo).ToList());
         }
     }
 }
