@@ -32,6 +32,13 @@
         </tr>
     </thead>
     <tbody>
+
+        @{
+            int cont = 0;
+
+
+        }
+
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -50,6 +57,9 @@
                 @Html.DisplayFor(modelItem => item.status)
             </td>
         </tr>
+        cont++;
 }
     </tbody>
 </table>
+
+<h3>Total de livros impressos: @cont</h3>
