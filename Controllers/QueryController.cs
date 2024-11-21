@@ -15,12 +15,12 @@ namespace BiblioTech.Controllers
 
         public IActionResult Livros(string titulo) 
         {
-            List<Livro> lista = new List<Livro>();
+            List<Livro> listaLivro = new List<Livro>();
 
 
             if (titulo == null) 
             {
-                lista = contexto.Livros
+                listaLivro = contexto.Livros
                   .Include(a => a.genero)
                   .Include(b => b.autor)
                   .OrderBy(o => o.autor)
@@ -29,7 +29,7 @@ namespace BiblioTech.Controllers
             }
             else
             {
-                lista = contexto.Livros
+                listaLivro = contexto.Livros
                  .Include(a => a.genero)
                  .Include(b => b.autor)
                  .Where(c => c.titulo.Contains(titulo))
@@ -39,10 +39,38 @@ namespace BiblioTech.Controllers
             }
             
 
-            return View(lista);
+            return View(listaLivro);
+        }
+
+        public IActionResult Autores(string nome)
+        {
+            List<Autor> listaAutor = new List<Autor>();
+
+
+            if (nome == null)
+            {
+                listaAutor = contexto.Autores
+                  .OrderBy(o => o.nome)
+                  .ToList();
+            }
+            else
+            {
+                listaAutor = contexto.Autores
+                 .Where(c => c.nome.Contains(nome))
+                 .OrderBy(o => o.nome)
+                 .ToList();
+            }
+
+
+            return View(listaAutor);
         }
 
         public IActionResult Pesquisa()
+        {
+            return View();
+        }
+
+        public IActionResult PesquisaAutores()
         {
             return View();
         }
