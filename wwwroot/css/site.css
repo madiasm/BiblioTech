@@ -21,6 +21,24 @@ body {
     margin-bottom: 60px;
 }
 
+/* Barra de navegação */
+.navbar {
+    background-color: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Linha muito suave */
+    font-family: 'Roboto', sans-serif; /* Nova fonte */
+}
+
+.navbar-brand img {
+    height: 60px; /* Aumenta a altura */
+    width: auto; /* Ajusta a largura automaticamente para manter a proporção */
+    object-fit: contain;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1rem;
+    color: #343a40; /* Cor do link */
+}
+
 .card {
     position: relative; /* Necessário para sobreposição */
 }
@@ -69,6 +87,3 @@ body {
 .d-flex {
     gap: 10px;
 }
-
-
-
