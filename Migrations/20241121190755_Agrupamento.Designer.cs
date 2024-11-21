@@ -4,6 +4,7 @@ using BiblioTech.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiblioTech.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20241121190755_Agrupamento")]
+    partial class Agrupamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace BiblioTech.Migrations
                     b.ToTable("Autores");
                 });
 
-            modelBuilder.Entity("BiblioTech.Models.DadosAgrupadosModel", b =>
+            modelBuilder.Entity("BiblioTech.Models.EmprestAutLiv", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -51,21 +54,15 @@ namespace BiblioTech.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Autor")
+                    b.Property<string>("autor")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Genero")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("QuantidadeEmprestimos")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuantidadeLivros")
+                    b.Property<int>("quantidade")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
-                    b.ToTable("DadosAgrupadosModels");
+                    b.ToTable("EmprestAutLiv");
                 });
 
             modelBuilder.Entity("BiblioTech.Models.Emprestimo", b =>
@@ -95,28 +92,6 @@ namespace BiblioTech.Migrations
                     b.HasIndex("usuarioId");
 
                     b.ToTable("Emprestimos");
-                });
-
-            modelBuilder.Entity("BiblioTech.Models.EmprestimoAnoMes", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("ano")
-                        .HasColumnType("int");
-
-                    b.Property<int>("mes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("quantidade")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("EmprestimoAnoMes");
                 });
 
             modelBuilder.Entity("BiblioTech.Models.Genero", b =>

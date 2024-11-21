@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BiblioTech.Models.DadosAgrupadosModel>
+
+@{
+    ViewData["Title"] = "AgruparDados";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="mb-4">Agrupar Dados</h1>
+
+<div class="container">
+    <table class="table table-hover table-striped table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">
+                        @if (item.Autor != null)
+                        {
+                            <span class="text-primary">Autor</span>
+                        }
+                        else
+                        {
+                            <span class="text-success">Gênero</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.Autor != null)
+                        {
+                            @item.Autor
+                        }
+                        else
+                        {
+                            @item.Genero
+                        }
+                    </td>
+                    <td>
+                        @if (item.QuantidadeEmprestimos != null)
+                        {
+                            @item.QuantidadeEmprestimos
+                        }
+                        else
+                        {
+                            @item.QuantidadeLivros
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Separando visualmente os gêneros e autores -->
+@if (Model.Any(item => item.Autor != null))
+{
+    <hr class="my-5" style="border-top: 3px solid #007bff;" />
+}

@@ -4,6 +4,7 @@ using BiblioTech.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BiblioTech.Migrations
 {
     [DbContext(typeof(Contexto))]
-    partial class ContextoModelSnapshot : ModelSnapshot
+    [Migration("20241121193312_AgruparGenAut")]
+    partial class AgruparGenAut
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,28 +98,6 @@ namespace BiblioTech.Migrations
                     b.HasIndex("usuarioId");
 
                     b.ToTable("Emprestimos");
-                });
-
-            modelBuilder.Entity("BiblioTech.Models.EmprestimoAnoMes", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<int>("ano")
-                        .HasColumnType("int");
-
-                    b.Property<int>("mes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("quantidade")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("EmprestimoAnoMes");
                 });
 
             modelBuilder.Entity("BiblioTech.Models.Genero", b =>

@@ -1,0 +1,114 @@
+﻿@model IEnumerable<BiblioTech.Models.Consulta.PivotEmprestimo>
+
+@{
+    ViewData["Title"] = "Pivot";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Pivot</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ano)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.janeiro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fevereiro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.marco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.abril)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.maio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.junho)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.julho)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.agosto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.setembro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.outubro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.novembro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dezembro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.total)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ano)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.janeiro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fevereiro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.marco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.abril)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.maio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.junho)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.julho)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.agosto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.setembro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.outubro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.novembro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dezembro)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.total)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

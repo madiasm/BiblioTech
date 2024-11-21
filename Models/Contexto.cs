@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using BiblioTech.Models;
+using BiblioTech.Models.Consulta;
 
 namespace BiblioTech.Models
 {
@@ -16,6 +18,9 @@ namespace BiblioTech.Models
         public DbSet<Livro> Livros { get; set; }
 
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<DadosAgrupadosModel> DadosAgrupadosModels { get; set; }
+        public DbSet<BiblioTech.Models.EmprestimoAnoMes> EmprestimoAnoMes { get; set; }
+        public DbSet<BiblioTech.Models.Consulta.PivotEmprestimo> PivotEmprestimo { get; set; }
     }
 
 }
