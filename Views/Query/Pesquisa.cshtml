@@ -1,0 +1,32 @@
+﻿@model BiblioTech.Models.Livro
+
+@{
+    ViewData["Title"] = "Pesquisa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Pesquisa</h1>
+
+<h4>Livro</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Livros">
+            <div class="form-group">
+                <label asp-for="titulo" class="control-label"></label>
+                <input asp-for="titulo" class="form-control" />
+           </div>
+            <div class="form-group">
+                <input type="submit" value="Filtrar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Livros">Listar Clientes</a>
+</div>
+
+@section Scripts {
+
+}
