@@ -65,7 +65,7 @@ namespace BiblioTech.Controllers
                 //livro.titulo = "Livro " + i.ToString();
                 livro.titulo = nomeLivro[i].ToString();
                 livro.generoId = rnd.Next(1, 5);
-                livro.autorId = rnd.Next(1, 4);
+                livro.autorId = rnd.Next(1, 20);
                 livro.publicacao = rnd.Next(1970, 2006);
                 livro.status = 1;
 
@@ -154,6 +154,54 @@ namespace BiblioTech.Controllers
             contexto.SaveChanges();
 
             return View(contexto.Emprestimos.Include(u=>u.usuario).Include(l=>l.livro).OrderBy(a=>a.dataEmprestimo).ToList());
+        }
+
+
+        public IActionResult Autores()
+        {
+
+            string[] autorasFemininas = {
+            "Jane Austen",
+            "Virginia Woolf",
+            "Clarice Lispector",
+            "Agatha Christie",
+            "Mary Shelley",
+            "Toni Morrison",
+            "J.K. Rowling",
+            "Isabel Allende",
+            "Margaret Atwood",
+            "Emily Dickinson"
+        };
+
+            string[] autoresMasculinos = {
+            "Gabriel García Márquez",
+            "J.R.R. Tolkien",
+            "Machado de Assis",
+            "George Orwell",
+            "Mark Twain",
+            "Victor Hugo",
+            "Ernest Hemingway",
+            "William Shakespeare",
+            "Miguel de Cervantes",
+            "Fiódor Dostoiévski"
+        };
+
+            contexto.Database.ExecuteSqlRaw("delete from Autores");
+            contexto.Database.ExecuteSqlRaw("DBCC CHECKIDENT('Autores', RESEED, 0)");
+
+            Random rnd = new Random();
+            for (int i = 0; i < 20; i++)
+            {
+                Autor autor = new Autor();
+                autor.nome = (i % 2 == 0) ? autoresMasculinos[i / 2] : autorasFemininas[i / 2];
+                autor.nascimento = rnd.Next(1900, 2000);
+
+                contexto.Autores.Add(autor);
+            }
+
+            contexto.SaveChanges();
+
+            return View(contexto.Autores.OrderBy(d => d.nascimento).ToList());
         }
     }
 }

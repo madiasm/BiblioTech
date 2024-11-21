@@ -65,6 +65,8 @@ namespace BiblioTech.Controllers
             return View(listaAutor);
         }
 
+
+
         public IActionResult Pesquisa()
         {
             return View();
