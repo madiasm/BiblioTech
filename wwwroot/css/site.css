@@ -21,6 +21,25 @@ body {
     margin-bottom: 60px;
 }
 
+/* Livros gerais */
+.book-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+    .book-grid .book-card {
+        flex: 0 0 calc(100% / 9); /* Cada item ocupa 1/9 da largura da linha */
+        max-width: calc(100% / 9);
+        padding: 10px; /* Espaçamento entre os itens */
+    }
+
+.book-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
 /* Barra de navegação */
 .navbar {
     background-color: white;
